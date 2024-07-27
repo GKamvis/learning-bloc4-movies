@@ -8,6 +8,7 @@ class HomePageCubit extends Cubit<List<Movies>> {
   var MRepo = MoviesRepository();
 
   Future<void> addMovies() async {
-    emit(await MRepo.addMovies());
+    var list = await MRepo.GetMovies();
+    emit(list);
   }
 }

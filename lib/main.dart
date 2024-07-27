@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         home: const HomePage(),
         routes: {
-          '/moviespage': (context) =>  MoviesPage(),
+          '/moviespage': (context) =>  const MoviesPage(),
         },
       ),
     );

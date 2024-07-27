@@ -1,22 +1,23 @@
 import 'package:myapp/data/entity/movies.dart';
+import 'package:myapp/sqflite/db_helper.dart';
 
-class MoviesRepository{
-  
-    Future<List<Movies>> addMovies() async {
-    List<Movies> moviesList = <Movies>[];
-    var m1 = Movies(id: 1, price: "234", image: "gladiator.png");
-    var m2 = Movies(id: 2, price: "23", image: "holmes.png");
-    var m3 = Movies(id: 3, price: "44", image: "interception.png");
-    var m4 = Movies(id: 4, price: "374", image: "lordofrings.png");
-    var m5 = Movies(id: 5, price: "34", image: "snitch.png");
-
-    moviesList.add(m1);
-    moviesList.add(m2);
-    moviesList.add(m3);
-    moviesList.add(m4);
-    moviesList.add(m5);
-    return moviesList;
+class MoviesRepository {
+  Future<List<Movies>> GetMovies() async {
+  try {
+    var db = await DbHelper.openDb();
+    List<Map<String, dynamic>> maps = await db.rawQuery('SELECT * FROM films');
+    return List.generate(maps.length, (i) {
+      var row = maps[i];
+      return Movies(
+        id: row['id'],
+        price: row['price'],
+        image: row['image'],
+      );
+    });
+  } catch (e) {
+    // Handle error (e.g., log it, show a message)
+    print('Error fetching movies: $e');
+    return [];
   }
-
-
+}
 }
